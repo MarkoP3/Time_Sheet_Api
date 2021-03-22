@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using timeSheetApi.Data;
-using timeSheetApi.Models;
+using timeSheetApi.Models.Country;
+using timeSheetApi.Services;
 
 namespace timeSheetApi.Controllers
 {
@@ -13,17 +9,17 @@ namespace timeSheetApi.Controllers
     [ApiController]
     public class CountryController : ControllerBase
     {
-        public CountryController(ICountryRepository countryRepository)
+        public CountryController(ICountryServices countryServices)
         {
-            CountryRepository = countryRepository;
+            CountrySerivces = countryServices;
         }
 
-        public ICountryRepository CountryRepository { get; }
+        public ICountryServices CountrySerivces { get; }
 
         [HttpGet]
         public ActionResult<IList<CountryDto>> GetAllCountries()
         {
-            return Ok(CountryRepository.GetAllCountrues());
+            return Ok(CountrySerivces.GetAllCountries());
         }
     }
 }

@@ -14,5 +14,6 @@ namespace timeSheetApi.Data
         IList<TeamMemberDto> TeamMembersOnPage(int page, int recordPerPage);
         decimal NumberOfPages(int recordPerPage);
         IList<dynamic> AllTeamMembers();
+        decimal MembersMaxHoursPerDay(Guid id);
     }
 }

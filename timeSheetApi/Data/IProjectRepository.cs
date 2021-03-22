@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using timeSheetApi.Models;
+using timeSheetApi.Entities;
 
 namespace timeSheetApi.Data
 {
     public interface IProjectRepository
     {
-        ProjectDto AddProject(ProjectDto client);
-        ProjectDto UpdateProject(ProjectDto client);
+        Project AddProject(Project client);
+        Project UpdateProject(Project client);
         bool DeleteProject(Guid client);
-        IList<ProjectDto> ProjectsOnPage(int page, string firstLetter, string filterText, int recordPerPage);
+        IList<Project> ProjectsOnPage(int page, string firstLetter, string filterText, int recordPerPage);
         decimal NumberOfPages(string firstLetter, string filterText, int recordPerPage);
         IList<char> ProjectsFirstLetter();
-        IList<dynamic> AllProjects ();
+        IList<dynamic> AllProjects();
+        IList<Project> GetAllProjectsFromCustomer(Guid customerID);
+        Project GetProjectByID(Guid id);
     }
 }

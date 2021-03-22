@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using timeSheetApi.Models;
+﻿using System.Collections.Generic;
+using timeSheetApi.Entities;
 
 namespace timeSheetApi.Data
 {
     public interface ICountryRepository
     {
-        IList<CountryDto> GetAllCountrues();
+        IList<Country> GetAllCountries();
     }
 }

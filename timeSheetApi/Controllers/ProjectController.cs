@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using timeSheetApi.Data;
-using timeSheetApi.Models;
+using timeSheetApi.Models.Project;
+using timeSheetApi.Services;
 
 namespace timeSheetApi.Controllers
 {
@@ -13,54 +13,75 @@ namespace timeSheetApi.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        public IProjectRepository ProjectRepository { get; }
+        public IProjectServices ProjectServices { get; }
+        public IConfiguration Configuration { get; }
+        public IMapper Mapper { get; }
+        public LinkGenerator LinkGenerator { get; }
 
-        public ProjectController(IProjectRepository projectRepository)
+        public ProjectController(IProjectServices projectServices, IConfiguration configuration, IMapper mapper, LinkGenerator linkGenerator)
         {
-            ProjectRepository = projectRepository;
+            ProjectServices = projectServices;
+            Configuration = configuration;
+            Mapper = mapper;
+            LinkGenerator = linkGenerator;
         }
-
-        [HttpGet("onPage")]
-        public IActionResult GetAllProjectsOnPage(int page, string firstLetter, string filterText, int recordsPerPage)
+        [HttpGet("{id}")]
+        public ActionResult<ProjectDto> GetProjectByID(Guid id)
+        {
+            return Ok(ProjectServices.GetProjectByID(id));
+        }
+        [HttpGet("page/{page}")]
+        public ActionResult<IList<ProjectDto>> GetAllProjectsOnPage(int page, string firstLetter, string filterText, int recordsPerPage)
         {
             if (firstLetter == null) firstLetter = "";
             if (filterText == null) filterText = "";
-            var projects = ProjectRepository.ProjectsOnPage(page, firstLetter, filterText, recordsPerPage);
+            if (recordsPerPage == 0) recordsPerPage = Convert.ToInt32(Configuration["DefaultRecordsPerPage"]);
+            var projects = ProjectServices.ProjectsOnPage(page, firstLetter, filterText, recordsPerPage);
             if (projects.Count > 0)
                 return Ok(projects);
             return NoContent();
         }
-        [HttpGet("firstLetters")]
+        [HttpGet("first-letters")]
         public IActionResult GetFirstLetters()
         {
-            return Ok(ProjectRepository.ProjectsFirstLetter());
+            return Ok(ProjectServices.ProjectsFirstLetter());
         }
         [HttpGet]
         public IActionResult GetAllClients()
         {
-            return Ok(ProjectRepository.AllProjects());
+            return Ok(ProjectServices.AllProjects());
         }
-        [HttpGet("numberOfPages")]
+        [HttpGet("customer/{customerID}")]
+        public ActionResult<IList<ProjectDto>> GetAllProjectsOfCustomer(Guid customerID)
+        {
+            return Ok(ProjectServices.GetAllProjectsFromCustomer(customerID));
+        }
+        [HttpGet("number-of-pages")]
         public IActionResult GetNumberOfPages(string firstLetter, string filterText, int recordsPerPage)
         {
             if (firstLetter == null) firstLetter = "";
             if (filterText == null) filterText = "";
-            return Ok(ProjectRepository.NumberOfPages(firstLetter, filterText, recordsPerPage));
+            if (recordsPerPage == 0) recordsPerPage = Convert.ToInt32(Configuration["DefaultRecordsPerPage"]);
+            return Ok(ProjectServices.NumberOfPages(firstLetter, filterText, recordsPerPage));
         }
         [HttpPost]
-        public IActionResult AddProject(ProjectDto project)
+        public ActionResult<ProjectConfirmationDto> AddProject(ProjectCreationDto project)
         {
-            return Ok(ProjectRepository.AddProject(project));
+            var createdProject = ProjectServices.AddProject(project);
+            string location = LinkGenerator.GetPathByAction("GetProjectByID", "Project", new { createdProject.Id });
+            if (createdProject != null)
+                return Created(location, Mapper.Map<ProjectConfirmationDto>(createdProject));
+            return BadRequest();
         }
         [HttpDelete("{id}")]
         public IActionResult DeleteProject(Guid id)
         {
-            return Ok(ProjectRepository.DeleteProject(id));
+            return Ok(ProjectServices.DeleteProject(id));
         }
         [HttpPut]
-        public IActionResult UpdateClient(ProjectDto project)
+        public ActionResult<ProjectDto> UpdateClient(ProjectUpdateDto project)
         {
-            return Ok(ProjectRepository.UpdateProject(project));
+            return Ok(ProjectServices.UpdateProject(project));
         }
     }
 }

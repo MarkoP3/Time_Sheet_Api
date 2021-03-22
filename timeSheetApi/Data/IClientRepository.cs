@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using timeSheetApi.Models.Client;
+using timeSheetApi.Entities;
 
 namespace timeSheetApi.Data
 {
     public interface IClientRepository
     {
-        ClientDto AddClient(ClientDto client);
-        ClientDto UpdateClient(ClientDto client);
+        Client AddClient(Client client);
+        Client UpdateClient(Client client);
         bool DeleteClient(Guid client);
-        IList<ClientDto> ClientsOnPage(int page, string firstLetter, string filterText, int recordPerPage);
-        decimal NumberOfPages( string firstLetter, string filterText, int recordPerPage);
+        IList<Client> ClientsOnPage(int page, string firstLetter, string filterText, int recordPerPage);
+        decimal NumberOfPages(string firstLetter, string filterText, int recordPerPage);
         IList<char> ClientsFirstLetter();
         IList<dynamic> AllClients();
-        ClientDto ClientById(Guid id);
+        Client ClientById(Guid id);
     }
 }

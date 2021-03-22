@@ -79,11 +79,11 @@ namespace timeSheetApi.Entities
                     .IsUnicode(false)
                     .HasColumnName("postal");
 
-                entity.HasOne(d => d.Country)
+               /* entity.HasOne(d => d.Country)
                     .WithMany(p => p.Clients)
                     .HasForeignKey(d => d.CountryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__clients__country__398D8EEE");
+                    .HasConstraintName("FK__clients__country__398D8EEE");*/
             });
 
             modelBuilder.Entity<Country>(entity =>
@@ -155,7 +155,7 @@ namespace timeSheetApi.Entities
                     .IsUnicode(false)
                     .HasColumnName("status");
 
-                entity.HasOne(d => d.Client)
+               /* entity.HasOne(d => d.Client)
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -165,7 +165,7 @@ namespace timeSheetApi.Entities
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.LeadId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__projects__leadID__412EB0B6");
+                    .HasConstraintName("FK__projects__leadID__412EB0B6");*/
             });
 
             modelBuilder.Entity<SpentHour>(entity =>

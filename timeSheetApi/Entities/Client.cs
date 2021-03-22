@@ -19,7 +19,7 @@ namespace timeSheetApi.Entities
         public string City { get; set; }
         public string Postal { get; set; }
 
-        public virtual Country Country { get; set; }
+        public virtual string Country { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
     }
 }

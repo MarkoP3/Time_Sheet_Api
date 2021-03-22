@@ -19,8 +19,8 @@ namespace timeSheetApi.Entities
         public string Description { get; set; }
         public string Status { get; set; }
 
-        public virtual Client Client { get; set; }
-        public virtual TeamMember Lead { get; set; }
+        public virtual string Client { get; set; }
+        public virtual string Lead { get; set; }
         public virtual ICollection<Engagement> Engagements { get; set; }
     }
 }

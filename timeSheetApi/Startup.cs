@@ -1,19 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using timeSheetApi.Data;
 using timeSheetApi.Entities;
+using timeSheetApi.Services;
 
 namespace timeSheetApi
 {
@@ -42,11 +37,14 @@ namespace timeSheetApi
                                   });
             });
             services.AddControllers();
-           
+
             services.AddSingleton<IClientRepository, mockClientRepository>();
-            services.AddSingleton<ICountryRepository,mockCountryRepository>();
-            services.AddSingleton<IProjectRepository,mockProjectRepository>();
-            services.AddSingleton<ITeamMemberRepository,mockTeamMembersRepository>();
+            services.AddSingleton<ICountryRepository, mockCountryRepository>();
+            services.AddSingleton<IProjectRepository, mockProjectRepository>();
+            services.AddSingleton<ITeamMemberRepository, mockTeamMembersRepository>();
+            services.AddScoped<IClientServices, ClientServices>();
+            services.AddScoped<IProjectServices, ProjectServices>();
+            services.AddScoped<ICountryServices, CountryServices>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "timeSheetApi", Version = "v1" });

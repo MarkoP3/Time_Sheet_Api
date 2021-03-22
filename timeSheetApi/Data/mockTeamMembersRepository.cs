@@ -34,6 +34,11 @@ namespace timeSheetApi.Data
             return true;
         }
 
+        public decimal MembersMaxHoursPerDay(Guid id)
+        {
+            return teamMembers.Where(el => el.Id == id).FirstOrDefault().HoursPerWeek / 5;
+        }
+
         public decimal NumberOfPages(int recordPerPage)
         {
             return Math.Ceiling((decimal)teamMembers.Count() / recordPerPage);

@@ -1,27 +1,27 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using timeSheetApi.Data;
 using timeSheetApi.Models;
 
 namespace timeSheetApi.Controllers
 {
-    [Route("api/teamMembers")]
+    [Route("api/team-members")]
     [ApiController]
     public class TeamMemberController : ControllerBase
     {
         public ITeamMemberRepository TeamMemberRepository { get; }
+        public IConfiguration Configuration { get; }
 
-        public TeamMemberController(ITeamMemberRepository teamMemberRepository)
+        public TeamMemberController(ITeamMemberRepository teamMemberRepository, IConfiguration configuration)
         {
             TeamMemberRepository = teamMemberRepository;
+            Configuration = configuration;
         }
-        [HttpGet("onPage")]
+        [HttpGet("page/{page}")]
         public IActionResult GetAllTeamMembersOnPage(int page, int recordsPerPage)
         {
+            if (recordsPerPage == 0) recordsPerPage = Convert.ToInt32(Configuration["DefaultRecordsPerPage"]);
             var teamMembers = TeamMemberRepository.TeamMembersOnPage(page, recordsPerPage);
             if (teamMembers.Count > 0)
                 return Ok(teamMembers);
@@ -32,7 +32,7 @@ namespace timeSheetApi.Controllers
         {
             return Ok(TeamMemberRepository.AllTeamMembers());
         }
-        [HttpGet("numberOfPages")]
+        [HttpGet("number-of-pages")]
         public IActionResult GetNumberOfPages(int recordsPerPage)
         {
             return Ok(TeamMemberRepository.NumberOfPages(recordsPerPage));
@@ -41,6 +41,11 @@ namespace timeSheetApi.Controllers
         public IActionResult AddTeamMember(TeamMemberDto teamMember)
         {
             return Ok(TeamMemberRepository.AddTeamMember(teamMember));
+        }
+        [HttpGet("{id}/hours-per-day")]
+        public IActionResult GetMembersMaxHoursPerDay(Guid id)
+        {
+            return Ok(TeamMemberRepository.MembersMaxHoursPerDay(id));
         }
         [HttpDelete("{id}")]
         public IActionResult DeleteTeamMember(Guid id)
