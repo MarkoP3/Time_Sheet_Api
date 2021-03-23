@@ -1,14 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
-using timeSheetApi.Data;
-using timeSheetApi.Entities;
-using timeSheetApi.Services;
+using timeSheet.Services.Data;
+using timeSheet.Services.Services;
 
 namespace timeSheetApi
 {
@@ -42,20 +40,20 @@ namespace timeSheetApi
             services.AddSingleton<ICountryRepository, mockCountryRepository>();
             services.AddSingleton<IProjectRepository, mockProjectRepository>();
             services.AddSingleton<ITeamMemberRepository, mockTeamMembersRepository>();
-            services.AddScoped<IClientServices, ClientServices>();
+            services.AddSingleton<IClientServices, ClientServices>();
             services.AddScoped<IProjectServices, ProjectServices>();
             services.AddScoped<ICountryServices, CountryServices>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "timeSheetApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "timeSheet.WebApi", Version = "v1" });
             });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddDbContext<TimeSheetContext>(options =>
+            /*services.AddDbContext<TimeSheetContext>(options =>
             {
                 options.UseLazyLoadingProxies();
                 options.UseSqlServer(Configuration.GetConnectionString("TimeSheet"));
-            });
+            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

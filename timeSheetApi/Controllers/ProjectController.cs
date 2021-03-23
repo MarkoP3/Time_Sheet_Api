@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using timeSheetApi.Models.Project;
-using timeSheetApi.Services;
+using timeSheet.Common.Models.Project;
+using timeSheet.Services.Services;
 
 namespace timeSheetApi.Controllers
 {

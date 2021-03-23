@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using timeSheetApi.Models.Client;
-using timeSheetApi.Services;
-
+using timeSheet.Common.Models.Client;
+using timeSheet.Services.Services;
 namespace timeSheetApi.Controllers
 {
     [Route("api/clients")]
@@ -27,18 +26,6 @@ namespace timeSheetApi.Controllers
         public IMapper Mapper { get; }
         public LinkGenerator LinkGenerator { get; }
 
-        [HttpGet("page/{page}")]
-        public ActionResult<ClientDto> GetAllClientsOnPage(int page, string firstLetter, string filterText, int recordsPerPage)
-        {
-            if (firstLetter == null) firstLetter = "";
-            if (filterText == null) filterText = "";
-            if (recordsPerPage == 0) recordsPerPage = Convert.ToInt32(Configuration["DefaultRecordsPerPage"]);
-            page -= 1;
-            var clients = ClientServices.ClientsOnPage(page, firstLetter, filterText, recordsPerPage);
-            if (clients.Count > 0)
-                return Ok(clients);
-            return NoContent();
-        }
         [HttpGet("first-letters")]
         public IActionResult GetFirstLetters()
         {
@@ -48,29 +35,20 @@ namespace timeSheetApi.Controllers
             return NoContent();
         }
         [HttpGet]
-        public IActionResult GetAllClients()
+        public IActionResult GetClients(int page, string firstLetter, string filterText, int recordsPerPage)
         {
-            var clients = ClientServices.AllClients();
+            var clients = ClientServices.ClientsOnPage(page, firstLetter, filterText, recordsPerPage);
+            var numberOfPages = ClientServices.NumberOfPages(firstLetter, filterText, recordsPerPage);
             if (clients.Count > 0)
-                return Ok(clients);
+                return Ok(new { clients, numberOfPages });
             return NoContent();
-        }
-        [HttpGet("number-of-pages")]
-        public ActionResult<IList<ClientDto>> GetNumberOfPages(string firstLetter, string filterText, int recordsPerPage)
-        {
-            if (firstLetter == null) firstLetter = "";
-            if (filterText == null) filterText = "";
-            if (recordsPerPage == 0) recordsPerPage = Convert.ToInt32(Configuration["DefaultRecordsPerPage"]);
-            return Ok(ClientServices.NumberOfPages(firstLetter, filterText, recordsPerPage));
         }
         [HttpPost]
         public ActionResult<ClientConfirmationDto> AddClient(ClientCreationDto client)
         {
             var createdClient = ClientServices.AddClient(client);
             string location = LinkGenerator.GetPathByAction("GetClientById", "Client", new { createdClient.Id });
-            if (createdClient != null)
-                return Created(location, Mapper.Map<ClientConfirmationDto>(createdClient));
-            return BadRequest();
+            return Created(location, createdClient);
         }
         [HttpGet("{id}")]
         public ActionResult<ClientDto> GetClientById(Guid id)
@@ -83,12 +61,23 @@ namespace timeSheetApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteClient(Guid id)
         {
-            return Ok(ClientServices.DeleteClient(id));
+            if (ClientServices.ClientById(id) == null)
+                return NotFound();
+            ClientServices.DeleteClient(id);
+            return NoContent();
         }
-        [HttpPut]
-        public IActionResult UpdateClient(ClientUpdateDto client)
+        [HttpPut("{id}")]
+        public IActionResult UpdateClient(ClientUpdateDto updateClient, Guid id)
         {
-            return Ok(ClientServices.UpdateClient(client));
+            try
+            {
+                ClientServices.UpdateClient(updateClient, id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return BadRequest();
+            }
         }
     }
 }

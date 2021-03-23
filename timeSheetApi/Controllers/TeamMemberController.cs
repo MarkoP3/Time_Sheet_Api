@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
-using timeSheetApi.Data;
-using timeSheetApi.Models;
+using timeSheet.Common.Models;
+using timeSheet.Services.Data;
 
 namespace timeSheetApi.Controllers
 {
