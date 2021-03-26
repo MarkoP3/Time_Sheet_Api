@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
-using timeSheet.Common.Entities;
-using timeSheet.Common.Models.Country;
-namespace timeSheetApi.Profiles
+using timeSheet.Repository.Contract.Entities;
+using timeSheet.Services.Contract.Models.Country;
+
+namespace timesheet.Services.Profiles
 {
     public class CountryProfile : Profile
     {

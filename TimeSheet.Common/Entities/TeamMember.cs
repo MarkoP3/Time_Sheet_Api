@@ -20,8 +20,8 @@ namespace timeSheet.Common.Entities
         public string Password { get; set; }
         public decimal HoursPerWeek { get; set; }
         public string Salt { get; set; }
-        public bool Status { get; set; }
-        public bool Role { get; set; }
+        public string Status { get; set; }
+        public string Role { get; set; }
 
         public virtual ICollection<Engagement> Engagements { get; set; }
         public virtual ICollection<Project> Projects { get; set; }

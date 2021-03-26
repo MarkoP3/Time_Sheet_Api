@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using System;
-using timeSheet.Common.Entities;
-using timeSheet.Common.Models.Project;
+using timeSheet.Repository.Contract.Entities;
+using timeSheet.Services.Contract.Models.Project;
 
-namespace timeSheetApi.Profiles
+namespace timesheet.Services.Profiles
 {
     public class ProjectProfile : Profile
     {
@@ -33,6 +33,7 @@ namespace timeSheetApi.Profiles
                 d => d.ClientId,
                 o => o.MapFrom(src => src.CustomerId));
             CreateMap<ProjectDto, ProjectConfirmationDto>();
+            CreateMap<Project, ProjectConfirmationDto>();
             CreateMap<Project, ProjectDto>()
                 .ForMember(
                 d => d.Customer,

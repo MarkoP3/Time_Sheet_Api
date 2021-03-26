@@ -9,7 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TimeSheet.Common\TimeSheet.Common.csproj" />
+    <ProjectReference Include="..\timeSheet.Repository.Contract\timeSheet.Repository.Contract.csproj" />
+    <ProjectReference Include="..\timeSheet.Repository\timeSheet.Repository.InMemory.csproj" />
+    <ProjectReference Include="..\timeSheet.Services.Contract\timeSheet.Services.Contract.csproj" />
   </ItemGroup>
 
 </Project>

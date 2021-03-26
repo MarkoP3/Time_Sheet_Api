@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using System;
-using timeSheetApi.Profiles;
+using timesheet.Services.Profiles;
 
 namespace timeSheet.Services
 {
@@ -15,6 +15,7 @@ namespace timeSheet.Services
                 cfg.AddProfile<ClientProfile>();
                 cfg.AddProfile<CountryProfile>();
                 cfg.AddProfile<ProjectProfile>();
+                cfg.AddProfile<TeamMemberProfile>();
             });
             var mapper = config.CreateMapper();
             return mapper;

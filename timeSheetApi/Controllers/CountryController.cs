@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using timeSheet.Common.Models.Country;
-using timeSheet.Services.Services;
+using timeSheet.Services.Contract.Models.Country;
+using timeSheet.Services.Contract.Services;
 
 namespace timeSheetApi.Controllers
 {
