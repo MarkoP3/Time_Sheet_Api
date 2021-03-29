@@ -36,7 +36,7 @@ namespace timeSheetApi
                                   });
             });
             services.AddControllers();
-            services.AddTimeSheetServices();
+            services.AddTimeSheetServices(Configuration);
 
             services.AddSwaggerGen(c =>
             {
@@ -44,11 +44,7 @@ namespace timeSheetApi
             });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddDbContext<TimeSheetContext>(options =>
-            {
-                options.UseLazyLoadingProxies();
-                options.UseSqlServer(Configuration.GetConnectionString("TimeSheet"));
-            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

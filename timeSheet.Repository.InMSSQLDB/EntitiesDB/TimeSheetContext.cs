@@ -23,7 +23,6 @@ namespace timeSheet.Repository.InMSSQLDB.EntitiesDB
         public virtual DbSet<SpentHour> SpentHours { get; set; }
         public virtual DbSet<TeamMember> TeamMembers { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");

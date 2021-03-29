@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TimeSheet.Configuration\timeSheet.Configuration.csproj" />
+    <ProjectReference Include="..\TimeSheet.Configuration\timeSheet.App.csproj" />
     <ProjectReference Include="..\timeSheet.Repository.InMSSQLDB\timeSheet.Repository.MSSQLDB.csproj" />
     <ProjectReference Include="..\timeSheet.Services.Contract\timeSheet.Services.Contract.csproj" />
     <ProjectReference Include="..\timeSheet.Services\timeSheet.Services.csproj" />

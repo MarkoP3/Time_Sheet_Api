@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "timeSheet.Repository.InMemo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "timeSheet.Repository.MSSQLDB", "timeSheet.Repository.InMSSQLDB\timeSheet.Repository.MSSQLDB.csproj", "{7531C07F-9E16-415B-B83E-0CC7145FCBC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "timeSheet.Configuration", "TimeSheet.Configuration\timeSheet.Configuration.csproj", "{D8399E8E-0BDF-4037-9779-D0F00C9476C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "timeSheet.App", "TimeSheet.Configuration\timeSheet.App.csproj", "{D8399E8E-0BDF-4037-9779-D0F00C9476C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
